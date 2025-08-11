@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
+
 @WebServlet("/customer")
 public class CustomerServlet extends HttpServlet {
 
@@ -29,6 +31,20 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         deleteCustomer(request, response);
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+
+        if (pathInfo == null || pathInfo.equals("/")) {
+            // Get all cars
+            getAllCustomer(response);
+        } else if (pathInfo.contains("byId")) {
+            // Get images for a specific car
+            getCustomerById(request, response);
+        } else {
+            sendErrorResponse(response, "Invalid path for GET request.");
+        }
     }
 
 
@@ -90,6 +106,32 @@ public class CustomerServlet extends HttpServlet {
             sendSuccessResponse(response, "Customer  deleted successfully.");
         } else {
             sendErrorResponse(response, "Customer not found.");
+        }
+    }
+    private void getAllCustomer(HttpServletResponse response) throws IOException {
+        List<Customer> customers = customerService.getAllCustomers();
+        response.setContentType("application/json");
+        response.getWriter().write(new Gson().toJson(customers));
+    }
+
+    private void getCustomerById(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String idParam = request.getParameter("customerId");
+        if (idParam == null) {
+            sendErrorResponse(response, "Missing parameter: customerId");
+            return;
+        }
+
+        try {
+            int customerId = Integer.parseInt(idParam);
+            Customer customer = customerService.getCustomerById(customerId);
+            if (customer != null) {
+                response.setContentType("application/json");
+                response.getWriter().write(new Gson().toJson(customer));
+            } else {
+                sendErrorResponse(response, "Customer not found.");
+            }
+        } catch (NumberFormatException e) {
+            sendErrorResponse(response, "Invalid customerId format.");
         }
     }
 
