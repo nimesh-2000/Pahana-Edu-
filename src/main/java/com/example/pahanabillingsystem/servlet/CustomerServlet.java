@@ -26,6 +26,10 @@ public class CustomerServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         updateCustomer(request, response);
     }
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        deleteCustomer(request, response);
+    }
 
 
          /*----------------------------------------------------------------------*/
@@ -74,6 +78,18 @@ public class CustomerServlet extends HttpServlet {
             sendSuccessResponse(response, "Car updated successfully.");
         } else {
             sendErrorResponse(response, "Car not found.");
+        }
+    }
+
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        Customer customer = customerService.getCustomerById(customerId);
+
+        if (customer != null) {
+            customerService.deleteCustomer(customerId);
+            sendSuccessResponse(response, "Customer  deleted successfully.");
+        } else {
+            sendErrorResponse(response, "Customer not found.");
         }
     }
 
