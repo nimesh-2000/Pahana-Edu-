@@ -2,7 +2,7 @@ package com.example.pahanabillingsystem.model;
 
 public class Item {
 
-    private int itemId;
+    private int Id;
     private String itemName;
     private String description;
     private String unitPrice;
@@ -11,20 +11,20 @@ public class Item {
     public Item() {
     }
 
-    public Item(int itemId, String itemName, String description, String unitPrice, int quantity) {
-        this.itemId = itemId;
+    public Item(int id, String itemName, String description, String unitPrice, int quantity) {
+        Id = id;
         this.itemName = itemName;
         this.description = description;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
     }
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return Id;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getItemName() {
