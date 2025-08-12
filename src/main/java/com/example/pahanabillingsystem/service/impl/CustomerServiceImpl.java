@@ -20,7 +20,8 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setName(customer.getName());
         newCustomer.setAddress(customer.getAddress());
         newCustomer.setTelephone(customer.getTelephone());
-         customerDAO.addCustomer(newCustomer);
+        newCustomer.setUnitConsumed(customer.getUnitConsumed());
+        customerDAO.addCustomer(newCustomer);
     }
 
     @Override
@@ -32,6 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setName(customer.getName());
         newCustomer.setAddress(customer.getAddress());
         newCustomer.setTelephone(customer.getTelephone());
+        newCustomer.setUnitConsumed(customer.getUnitConsumed());
         customerDAO.updateCustomer(newCustomer);
     }
 

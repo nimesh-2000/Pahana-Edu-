@@ -16,6 +16,7 @@ public class BillDAO {
     public boolean createBill(Bill bill, List<BillItemDTO> items) {
         String insertBillSQL = "INSERT INTO bills (customer_id,total_amount,bill_date, items, total_qty) VALUES (?, ?, ?, ?, ?)";
         String updateStockSQL = "UPDATE items SET stock_quantity = stock_quantity - ? WHERE id = ?";
+        String updateCustomerSQL = "UPDATE customers SET unit_consumed = unit_consumed + ? WHERE id = ?";
 
         try (Connection connection = DBUtil.getConnection()) {
             connection.setAutoCommit(false);
@@ -37,6 +38,12 @@ public class BillDAO {
                     stockStmt.setInt(2, item.getId());
                     stockStmt.executeUpdate();
                 }
+            }
+
+            try (PreparedStatement customerStmt = connection.prepareStatement(updateCustomerSQL)) {
+                customerStmt.setInt(1, bill.getTotalQty()); // add total qty of bill
+                customerStmt.setInt(2, bill.getCustomerId());
+                customerStmt.executeUpdate();
             }
 
             connection.commit();

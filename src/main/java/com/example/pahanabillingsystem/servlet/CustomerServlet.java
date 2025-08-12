@@ -56,7 +56,7 @@ public class CustomerServlet extends HttpServlet {
         String telephone = request.getParameter("telephone");
 
 
-        Customer customer = new Customer(0, accountNumber, name, address, telephone);
+        Customer customer = new Customer(0, accountNumber, name, address, telephone,0);
 
         // Call service to add car and populate the carDTO with the ID
         customerService.addCustomer(customer);
