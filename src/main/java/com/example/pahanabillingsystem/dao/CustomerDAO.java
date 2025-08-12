@@ -26,7 +26,7 @@ public class CustomerDAO {
     }
 
     public Customer getCustomerById(int id) {
-        String sql = "SELECT * FROM customer WHERE id = ?";
+        String sql = "SELECT * FROM customers WHERE id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -50,7 +50,7 @@ public class CustomerDAO {
 
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
-        String sql = "SELECT * FROM customer";
+        String sql = "SELECT * FROM customers";
 
         try (Connection conn = DBUtil.getConnection();
              Statement stmt = conn.createStatement();
@@ -72,7 +72,7 @@ public class CustomerDAO {
     }
 
     public void updateCustomer(Customer customer) {
-        String sql = "UPDATE customer SET account_number=?, name=?, address=?, telephone=? WHERE id=?";
+        String sql = "UPDATE customers SET account_number=?, name=?, address=?, telephone=? WHERE id=?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -89,7 +89,7 @@ public class CustomerDAO {
     }
 
     public void deleteCustomer(int id) {
-        String sql = "DELETE FROM customer WHERE id=?";
+        String sql = "DELETE FROM customers WHERE id=?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
