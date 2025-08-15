@@ -5,10 +5,8 @@ import com.example.pahanabillingsystem.model.Bill;
 import com.example.pahanabillingsystem.model.Item;
 import com.example.pahanabillingsystem.utill.DBUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillDAO {
@@ -54,4 +52,53 @@ public class BillDAO {
             return false;
         }
     }
+
+    public Bill getBillById(int billId) {
+        String sql = "SELECT * FROM bills WHERE id = ?";
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, billId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Bill(
+                        rs.getInt("id"),
+                        rs.getInt("customer_id"),
+                        rs.getString("items"),
+                        rs.getInt("total_qty"),
+                        rs.getDouble("total_amount"),
+                        rs.getTimestamp("bill_date").toLocalDateTime()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Bill> getAllBills() {
+        List<Bill> bills = new ArrayList<>();
+        String sql = "SELECT * FROM bills ORDER BY bill_date DESC";
+
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                bills.add(new Bill(
+                        rs.getInt("id"),
+                        rs.getInt("customer_id"),
+                        rs.getString("items"),
+                        rs.getInt("total_qty"),
+                        rs.getDouble("total_amount"),
+                        rs.getTimestamp("bill_date").toLocalDateTime()
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bills;
+    }
+
 }

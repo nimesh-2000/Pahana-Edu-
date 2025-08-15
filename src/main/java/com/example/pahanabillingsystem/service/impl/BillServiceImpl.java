@@ -16,4 +16,14 @@ public class BillServiceImpl implements BillService {
     public boolean createBill(Bill bill, List<BillItemDTO> items) {
         return billDAO.createBill(bill, items);
     }
+
+    @Override
+    public Bill getBillById(int billId) {
+        return billDAO.getBillById(billId);
+    }
+
+    @Override
+    public List<Bill> getAllBills() {
+        return billDAO.getAllBills();
+    }
 }

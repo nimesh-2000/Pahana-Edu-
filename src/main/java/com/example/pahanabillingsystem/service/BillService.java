@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface BillService {
     boolean createBill(Bill bill, List<BillItemDTO> items);
+    Bill getBillById(int billId);
+    List<Bill> getAllBills();
+
 }
