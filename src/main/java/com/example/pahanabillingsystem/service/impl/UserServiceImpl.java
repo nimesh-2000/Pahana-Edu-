@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
     private final OtpDAO otpDAO = new OtpDAO();
     private EmailService emailService;
 
+
     @Override
     public boolean registerUser(User user) {
         System.out.println(user+"service impl");

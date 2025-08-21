@@ -51,10 +51,10 @@ public class ItemServlet extends HttpServlet {
     private void createItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String itemName = request.getParameter("itemName");
         String description = request.getParameter("description");
-        String unitPrice = request.getParameter("unitPrice");
+        double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
         String quantityParam = request.getParameter("quantity");
 
-        if (itemName == null || unitPrice == null || quantityParam == null) {
+        if (itemName == null || unitPrice == 0 || quantityParam == null) {
             sendErrorResponse(response, "Missing required fields.");
             return;
         }
@@ -93,7 +93,8 @@ public class ItemServlet extends HttpServlet {
         if (existingItem != null) {
             existingItem.setItemName(request.getParameter("itemName"));
             existingItem.setDescription(request.getParameter("description"));
-            existingItem.setUnitPrice(request.getParameter("unitPrice"));
+            existingItem.setUnitPrice (Double.parseDouble(request.getParameter("unitPrice")));
+
 
             String quantityParam = request.getParameter("quantity");
             if (quantityParam != null) {
